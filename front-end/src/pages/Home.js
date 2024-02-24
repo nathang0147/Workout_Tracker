@@ -4,7 +4,7 @@ import WorkoutForm from "../component/WorkoutForm";
 
 const Home = () => {
 
-    const {data: workouts, isPending, error} = useFetch('/workouts');
+    const {data: workouts, isPending, error} = useFetch('/workouts', 'SET_WORKOUTS');
 
 
     return (
@@ -14,7 +14,7 @@ const Home = () => {
                 {isPending && <div>Loading...</div>}
                 {workouts && workouts.map((workout) => (
 
-                        <WorkoutDetails key={workout.id} workout={workout}/>
+                        <WorkoutDetails key={workout._id} workout={workout}/>
 
                 ))}
             </div>
