@@ -1,3 +1,5 @@
-Back_end/node_modules/
+back_end/node_modules/
 
-Back_end/.env
+back_end/.env
+
+front-end/.gitignore
