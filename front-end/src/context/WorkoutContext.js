@@ -22,6 +22,12 @@ export const workoutReducer = (state,action)=>{ //the "state" is the previous st
                 workouts: [action.payload, ...state.workouts], //the new workout is added to the array of workouts,
                 // the ...state.workouts is the rest state that not changed
             };
+        case 'DELETE_WORKOUT':
+            return{
+                ...state,
+                workouts: state.workouts.filter((workout) => workout._id !== action.payload) //the workout is removed from the array of workouts
+            }
+
         default:
             return state;
     }
@@ -39,4 +45,3 @@ export const WorkoutContextProvider = ({children}) => {
         </WorkoutContext.Provider>
     );
 };
-

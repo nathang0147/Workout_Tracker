@@ -1,4 +1,23 @@
+import useWorkoutContext from "../Hook/useWorkoutContext";
+
 const WorkoutDetails = ({workout}) => {
+    const{dispatch} = useWorkoutContext();
+
+    const handleDelete = async () => {
+        const response = await fetch('/workouts/' + workout._id, {
+            method: 'DELETE'
+        });
+
+        const json = await response.json();
+        if (!response.ok) {
+            console.log('Failed to delete');
+        }
+
+        if (response.ok) {
+            dispatch({type: 'DELETE_WORKOUT', payload: json});
+        }
+    };
+
     return (
         <div className="workout-details">
             <h4>{workout.title}</h4>
@@ -15,6 +34,7 @@ const WorkoutDetails = ({workout}) => {
             <p><strong>Load (kg):</strong> {workout.weight}</p>
             <p><strong>Image:</strong> {workout.image}</p>
             <p>{workout.createdAt}</p>
+            <span onClick={handleDelete}>Delete</span>
         </div>
     );
 };

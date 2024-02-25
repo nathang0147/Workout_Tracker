@@ -1,12 +1,20 @@
 import {useState} from "react";
+import useWorkoutContext from "../Hook/useWorkoutContext";
 
 const WorkoutForm =  () => {
-    const [workout, setWorkout] = useState({title: '', reps: '', sets: '', weight: '', videoID:'' , image: ''});
+    const {dispatch} = useWorkoutContext();
+
+    const [title, setTitle] = useState('');
+    const [reps, setReps] = useState('');
+    const [sets, setSets] = useState('');
+    const [weight, setWeight] = useState('');
+    const [videoID, setVideoID] = useState('');
+    const [image, setImage] = useState('');
     const [error, setError] = useState(null);
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        const newWorkout = {workout};
+        const newWorkout = {title, reps, sets, weight, videoID, image};
         const response = await fetch('/workouts',{
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
@@ -20,9 +28,16 @@ const WorkoutForm =  () => {
         }
 
         if(response.ok){
-            setWorkout({title: '', reps: '', sets: '', weight: '', videoID:'' , image: ''});
+            setTitle('');
+            setReps('');
+            setSets('');
+            setWeight('');
+            setVideoID('');
+            setImage('');
             setError(null);
             console.log('new Workout create');
+            dispatch({type: 'CREATE_WORKOUT', payload: json});
+
         }
     };
 
@@ -34,42 +49,42 @@ const WorkoutForm =  () => {
             <input
                 type="text"
                 required
-                value={workout.title}
-                onChange={(e) => setWorkout({...workout, title: e.target.value})}
+                value={title}
+                onChange={(e) => setTitle(e.target.value)}
             />
             <label>Reps</label>
             <input
                 type="number"
                 required
-                value={workout.reps}
-                onChange={(e) => setWorkout({...workout, reps: e.target.value})}
+                value={reps}
+                onChange={(e) => setReps(e.target.value)}
             />
             <label>Sets</label>
             <input
                 type="number"
                 required
-                value={workout.sets}
-                onChange={(e) => setWorkout({...workout, sets: e.target.value})}
+                value={sets}
+                onChange={(e) => setSets(e.target.value)}
             />
             <label>Weight (kg)</label>
             <input
                 type="text"
                 required
-                value={workout.weight}
-                onChange={(e) => setWorkout({...workout, weight: e.target.value})}
+                value={weight}
+                onChange={(e) => setWeight(e.target.value)}
             />
             <label>Video ID</label>
             <input
                 type="text"
                 required
-                value={workout.videoID}
-                onChange={(e) => setWorkout({...workout, videoID: e.target.value})}
+                value={videoID}
+                onChange={(e) => setVideoID(e.target.value)}
             />
             <label>Image</label>
             <input
                 type="text"
-                value={workout.image}
-                onChange={(e) => setWorkout({...workout, image: e.target.value})}
+                value={image}
+                onChange={(e) => setImage( e.target.value)}
             />
             <button>Submit</button>
             {error && <div className="error">{error}</div>}
