@@ -11,6 +11,8 @@ const WorkoutForm =  () => {
     const [videoID, setVideoID] = useState('');
     const [image, setImage] = useState('');
     const [error, setError] = useState(null);
+    const [emptyFields, setEmptyFields] = useState([]);
+
     const handleSubmit = async (e) => {
         e.preventDefault();
 
@@ -25,6 +27,7 @@ const WorkoutForm =  () => {
 
         if(!response.ok){
             setError(json.error);
+            setEmptyFields(json.emptyFields);
         }
 
         if(response.ok){
@@ -51,6 +54,7 @@ const WorkoutForm =  () => {
                 required
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
+                className={emptyFields.includes('title') ? 'empty' : ''}
             />
             <label>Reps</label>
             <input
@@ -58,6 +62,7 @@ const WorkoutForm =  () => {
                 required
                 value={reps}
                 onChange={(e) => setReps(e.target.value)}
+                className={emptyFields.includes('reps') ? 'empty' : ''}
             />
             <label>Sets</label>
             <input
@@ -65,6 +70,7 @@ const WorkoutForm =  () => {
                 required
                 value={sets}
                 onChange={(e) => setSets(e.target.value)}
+                className={emptyFields.includes('sets') ? 'empty' : ''}
             />
             <label>Weight (kg)</label>
             <input
@@ -72,6 +78,7 @@ const WorkoutForm =  () => {
                 required
                 value={weight}
                 onChange={(e) => setWeight(e.target.value)}
+                className={emptyFields.includes('weight') ? 'empty' : ''}
             />
             <label>Video ID</label>
             <input
@@ -79,6 +86,7 @@ const WorkoutForm =  () => {
                 required
                 value={videoID}
                 onChange={(e) => setVideoID(e.target.value)}
+                className={emptyFields.includes('videoID') ? 'empty' : ''}
             />
             <label>Image</label>
             <input
