@@ -1,46 +1,38 @@
-import {useState} from "react";
+import { useState } from "react"
+import { useSignup } from "..//Hook/useSignUp"
 
 const Signup = () => {
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
+    const [email, setEmail] = useState('')
+    const [password, setPassword] = useState('')
+    const {signup, error, isLoading} = useSignup()
 
-    const handleSignup = async (e) => {
-        e.preventDefault();
+    const handleSubmit = async (e) => {
+        e.preventDefault()
 
-        const res = await fetch('/user/signup', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({email, password}),
-        });
-
-        const data = await res.json();
+        await signup(email, password)
     }
 
     return (
-        <form className="signup" onSubmit={handleSignup}>
-            <h3>Sign up</h3>
+        <form className="signup" onSubmit={handleSubmit}>
+            <h3>Sign Up</h3>
 
-            <label>Email</label>
+            <label>Email address:</label>
             <input
                 type="email"
-                required
-                value={email}
                 onChange={(e) => setEmail(e.target.value)}
+                value={email}
             />
-
-            <label>Password</label>
+            <label>Password:</label>
             <input
                 type="password"
-                required
-                value={password}
                 onChange={(e) => setPassword(e.target.value)}
+                value={password}
             />
 
-            <button>Sign up</button>
+            <button disabled={isLoading}>Sign up</button>
+            {error && <div className="error">{error}</div>}
         </form>
-    );
-};
+    )
+}
 
-export default Signup;
+export default Signup
