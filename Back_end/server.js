@@ -27,6 +27,6 @@ mongoose.connect(process.env.MONGO_URI)
         })
     })
     .catch((err) => {
-        console.error('Error connecting to the database. \n${err}');
+        console.error(`Error connecting to the database. \n${err}`);
     });
 

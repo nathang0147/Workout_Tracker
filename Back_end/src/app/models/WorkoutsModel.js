@@ -19,6 +19,10 @@ const workoutSchema = new Schema({
         type: String,
         required: true
     },
+    user_id: {
+        type: String,
+        required: true
+    },
     videoID: {type: String, maxLength: 255},
     image: {type: String, maxLength: 255},
 }, {timestamps: true});

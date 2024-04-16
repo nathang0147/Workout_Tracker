@@ -4,7 +4,9 @@ const mongoose = require('mongoose');
 class WorkoutController{
     //[GET] /workouts
     async getWorkouts(req,res){
-        const workout = await Workout.find({}).sort({createdAt: -1});
+        const user_id = req.user._id;
+
+        const workout = await Workout.find({user_id }).sort({createdAt: -1});
 
         res.status(200).json(workout);
     }
@@ -13,8 +15,19 @@ class WorkoutController{
     async createWorkout(req,res){
         const { title, reps, sets, weight, videoID, image } = req.body;
 
+        let emptyFields = [];
+
+        if(!title) emptyFields.push('title');
+        if(!reps) emptyFields.push('reps');
+        if(!sets) emptyFields.push('sets');
+        if(!weight) emptyFields.push('weight');
+        if(!videoID) emptyFields.push('videoID');
+
+        if(emptyFields.length > 0) return res.status(400).json({error: `Please fill in the following fields: ${emptyFields.join(', ')}`});
+
         try{
-            const workout = await Workout.create({title, reps, sets, weight, videoID, image});
+            const user_id = req.user._id;
+            const workout = await Workout.create({title, reps, sets, user_id, weight, videoID, image});
             res.status(200).json(workout);
         }catch(err){
             res.status(400).json({error: err.message});
